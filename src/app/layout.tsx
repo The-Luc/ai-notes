@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
+import { ThemeProvider } from '../provider/ThemeProvider';
 
 export const metadata: Metadata = {
   title: "AI Notes",
@@ -16,7 +17,13 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem={true}
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
