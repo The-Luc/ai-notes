@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import { ThemeProvider } from '../provider/ThemeProvider';
+import { ThemeProvider } from "../provider/ThemeProvider";
+import Header from "../components/Header";
+import { Toaster } from "../components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "AI Notes",
@@ -14,16 +16,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`antialiased`}
-      >
+      <body className={`antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem={true}
         >
-          {children}
+          <div className="flex min-h-screen w-full flex-col">
+            <Header />
+            <main className="flex-1 flex-col px-4 pt-10 xl:px-8">
+              {children}
+            </main>
+          </div>
         </ThemeProvider>
+        <Toaster richColors />
       </body>
     </html>
   );
