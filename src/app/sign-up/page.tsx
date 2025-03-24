@@ -1,19 +1,21 @@
+"use client";
+
 import React from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import AuthForm from "../../components/AuthForm";
 
-function LoginPage() {
+function SignUpPage() {
   return (
     <div className="mt-20 flex flex-1 justify-center bg-gray-50">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center text-3xl">Login</CardTitle>
+          <CardTitle className="text-center text-3xl">Sign Up</CardTitle>
         </CardHeader>
 
-        <AuthForm type="login" />
+        <AuthForm type="signup" />
       </Card>
     </div>
   );
 }
 
-export default LoginPage;
+export default SignUpPage;
