@@ -13,12 +13,14 @@ model Note {
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
-  notes Note[]
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  notes     Note[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

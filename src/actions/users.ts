@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '../app/auth/server'
+import { prisma } from '../db/prisma'
 import { debugAuth, handleError } from '../lib/utils'
 
 export const loginAction = async (email: string, password: string) => {
@@ -17,13 +18,13 @@ export const loginAction = async (email: string, password: string) => {
 		if (error) throw error
 
 		// Ensure we only return serializable data
-		const user = data.user ? {
-			id: data.user.id,
-			email: data.user.email,
-			role: data.user.role,
-			created_at: data.user.created_at,
-			updated_at: data.user.updated_at
-		} : null
+		// const user = data.user ? {
+		// 	id: data.user.id,
+		// 	email: data.user.email,
+		// 	role: data.user.role,
+		// 	created_at: data.user.created_at,
+		// 	updated_at: data.user.updated_at
+		// } : null
 
 		return { errorMessage: null }
 	} catch (error) {
@@ -62,6 +63,12 @@ export const signupAction = async (email: string, password: string) => {
 
 		// create user in DB
 		console.log("🚀 ~ signupAction ~ userId:", userId)
+		await prisma.user.create({
+			data: {
+				id: userId,
+				email,
+			}
+		})
 
 		// Ensure we only return serializable data
 		const user = data.user ? {
