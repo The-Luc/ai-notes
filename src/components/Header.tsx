@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { use } from "react";
 import { shadow } from "../styles/utils";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./DarkModeToggle";
 import LogoutButton from "./LogoutButton";
+import { getUser } from "../app/auth/server";
 
 function Header() {
-  const user = null;
+  const user = use(getUser());
+  console.log("🚀 ~ Header ~ user:", user);
 
   return (
     <header

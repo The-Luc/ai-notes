@@ -1,13 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useTransition } from "react";
+import React, { useTransition, useState } from "react";
 import { CardContent, CardFooter } from "./ui/card";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { loginAction, signupAction } from "../actions/users";
 
 type IPros = {
   type: "login" | "signup";
@@ -16,13 +18,73 @@ type IPros = {
 function AuthForm({ type }: IPros) {
   const isLoginForm = type === "login";
   const router = useRouter();
-  const { isPending, startTransition } = useTransition();
+  const [isPending, startTransition] = useTransition();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
 
-  const handleSubmit = async (formData: FormData) => {
-    console.log(formData);
+  const handleLogin = async (email: string, password: string) => {
+    const { errorMessage } = await loginAction(email, password);
+
+    if (errorMessage) {
+      toast.error("Login failed", {
+        description: errorMessage,
+      });
+      return false;
+    }
+
+    toast.success("Login successful");
+    router.replace("/");
+    return true;
   };
 
-  const buttonName = isLoginForm ? "Login" : "Logout";
+  const handleSignup = async (email: string, password: string) => {
+    const { errorMessage } = await signupAction(email, password);
+
+    if (errorMessage) {
+      toast.error("Signup failed", {
+        description: errorMessage,
+      });
+      return false;
+    }
+
+    toast.success("Signup successful");
+    router.replace("/");
+    return true;
+  };
+
+  const handleSubmit = async (formDataSubmit: FormData) => {
+    const email = formDataSubmit.get("email") as string;
+    const password = formDataSubmit.get("password") as string;
+    
+    // Update state with the submitted values to preserve them
+    setFormData({ email, password });
+
+    startTransition(async () => {
+      let success;
+      if (isLoginForm) {
+        success = await handleLogin(email, password);
+      } else {
+        success = await handleSignup(email, password);
+      }
+      
+      // If authentication was successful, clear the form data
+      if (success) {
+        setFormData({ email: "", password: "" });
+      }
+    });
+  };
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const buttonName = isLoginForm ? "Login" : "Sign Up";
 
   return (
     <div>
@@ -37,6 +99,8 @@ function AuthForm({ type }: IPros) {
               required
               placeholder="Enter your email"
               disabled={isPending}
+              value={formData.email}
+              onChange={handleInputChange}
             />
           </div>
           <div className="space-y-2">
@@ -48,6 +112,8 @@ function AuthForm({ type }: IPros) {
               required
               placeholder="Enter your password"
               disabled={isPending}
+              value={formData.password}
+              onChange={handleInputChange}
             />
           </div>
         </CardContent>

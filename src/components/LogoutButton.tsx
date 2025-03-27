@@ -1,37 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { logoutAction } from "../actions/users";
 
 function LogoutButton() {
-  const [loading, setLoading] = useState(false);
+  const [loading, startTransition] = useTransition();
   const router = useRouter();
 
   const handleLogout = async () => {
     console.log("Logout");
-    setLoading(true);
-    // TODO: Logout
-    await new Promise((r) => setTimeout(r, 2000));
+    startTransition(async () => {
+      const { errorMessage } = await logoutAction();
 
-    const errorMessage = null;
+      if (!errorMessage) {
+        toast.success("Logout successful", {
+          description: "You have been logged out successfully",
+        });
 
-    if (!errorMessage) {
-      toast.success("Logout successful", {
-        description: "You have been logged out successfully",
-      });
-
-      // redirect to homepage
-      router.push("/");
-    } else {
-      toast.error("Logout failed", {
-        description: errorMessage,
-      });
-    }
-
-    setLoading(false);
+        // redirect to homepage
+        router.push("/");
+      } else {
+        toast.error("Logout failed", {
+          description: errorMessage,
+        });
+      }
+    });
   };
 
   return (
