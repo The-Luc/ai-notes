@@ -3,14 +3,37 @@
 import React, { useMemo, useState, useTransition } from "react";
 import { Input } from "../components/ui/input";
 import { Loader2 } from "lucide-react";
+import { debugApp } from "../lib/utils";
+
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+}
 
 // Simulate a large dataset
-const generateLargeList = () => {
-  return Array.from({ length: 1000000 }, (_, i) => ({
+const generateLargeList = (): Item[] => {
+  return Array.from({ length: 100000 }, (_, i) => ({
     id: i,
     name: `Item ${i}`,
     description: `This is a description for item ${i}`,
   }));
+};
+
+const findItems = async (text: string): Promise<Item[]> => {
+  return new Promise<Item[]>((r) =>
+    setTimeout(
+      () =>
+        r(
+          generateLargeList().filter(
+            (item) =>
+              item.name.toLowerCase().includes(text.toLowerCase()) ||
+              item.description.toLowerCase().includes(text.toLowerCase()),
+          ),
+        ),
+      2000,
+    ),
+  );
 };
 
 const UseTransitionExample = () => {
@@ -27,19 +50,17 @@ const UseTransitionExample = () => {
   const [isPending, startTransition] = useTransition();
 
   // Handle input change without useTransition (will cause UI lag)
-  const handleSearchWithoutTransition = (
+  const handleSearchWithoutTransition = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const text = e.target.value;
     setSearchText(text);
 
     // This expensive operation will block the UI
-    const filtered = allItems.filter(
-      (item) =>
-        item.name.toLowerCase().includes(text.toLowerCase()) ||
-        item.description.toLowerCase().includes(text.toLowerCase()),
-    );
+    debugApp("handleSearchWithoutTransition");
+    const filtered = await findItems(text);
     setFilteredItems(filtered);
+    debugApp("handleSearchWithoutTransition end");
   };
 
   // Handle input change with useTransition (smooth UI)
@@ -52,13 +73,11 @@ const UseTransitionExample = () => {
     setSearchText(text);
 
     // Mark the filtering operation as a transition (lower priority)
-    startTransition(() => {
-      const filtered = allItems.filter(
-        (item) =>
-          item.name.toLowerCase().includes(text.toLowerCase()) ||
-          item.description.toLowerCase().includes(text.toLowerCase()),
-      );
+    debugApp("handleSearchWithTransition");
+    startTransition(async () => {
+      const filtered = await findItems(text);
       setFilteredItems(filtered);
+      debugApp("handleSearchWithTransition end");
     });
   };
 
