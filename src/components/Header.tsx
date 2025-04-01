@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { ModeToggle } from "./DarkModeToggle";
 import LogoutButton from "./LogoutButton";
 import { getUser } from "../app/auth/server";
+import { SidebarTrigger } from "./ui/sidebar";
 
 function Header() {
   const user = use(getUser());
@@ -13,9 +14,10 @@ function Header() {
 
   return (
     <header
-      className="bg-popover flex h-24 items-center justify-between px-3 sm:px-8"
+      className="bg-popover relative flex h-24 items-center justify-between px-3 sm:px-8"
       style={{ boxShadow: shadow }}
     >
+      <SidebarTrigger className="absolute top-1 left-1" />
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/book.png"

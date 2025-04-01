@@ -13,7 +13,7 @@ interface Item {
 
 // Simulate a large dataset
 const generateLargeList = (): Item[] => {
-  return Array.from({ length: 100000 }, (_, i) => ({
+  return Array.from({ length: 1000 }, (_, i) => ({
     id: i,
     name: `Item ${i}`,
     description: `This is a description for item ${i}`,

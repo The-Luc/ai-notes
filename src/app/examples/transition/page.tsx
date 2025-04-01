@@ -1,5 +1,4 @@
 import ExamplesPage from "../../../examples/ExamplesPage";
-import UseTransitionExample from "../../../examples/UseTransitionExample";
 
 export default function TransitionExamplePage() {
   return (
