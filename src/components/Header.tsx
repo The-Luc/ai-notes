@@ -10,7 +10,6 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 function Header() {
   const user = use(getUser());
-  console.log("🚀 ~ Header ~ user:", user);
 
   return (
     <header

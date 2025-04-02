@@ -26,7 +26,7 @@ async function Homepage({ searchParams }: IProps) {
     /* <div className='flex h-full flex-col items-center gap-4'> */
   }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4 pb-4">
       {/* <div className='flex w-full max-w-4xl justify-end gap-2' > */}
       <div className="flex gap-2">
         <AskAIButton user={user} />

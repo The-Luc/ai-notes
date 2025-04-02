@@ -15,13 +15,13 @@ import Fuse from "fuse.js";
 import Link from "next/link";
 import useNote from "../hooks/useNote";
 import { useSearchParams } from "next/navigation";
+import DeleteNoteButton from "./DeleteNoteButton";
 
 interface MySidebarContentProps {
   notes: Note[];
 }
 
 function MySidebarContent({ notes }: MySidebarContentProps) {
-  debugApp("AppSidebar 2", { notes });
   const [search, setSearch] = useState("");
   const { noteText } = useNote();
   const searchParam = useSearchParams();
@@ -31,7 +31,7 @@ function MySidebarContent({ notes }: MySidebarContentProps) {
     () =>
       new Fuse(notes, {
         keys: ["text"],
-        threshold: 0.3,
+        threshold: 0.4,
       }),
     [notes],
   );
@@ -40,7 +40,7 @@ function MySidebarContent({ notes }: MySidebarContentProps) {
 
   const getShowText = (note: Note) => {
     if (note.id !== noteId) return note.text;
-    return noteText;
+    return noteText || "EMPTY NOTE";
   };
 
   return (
@@ -63,7 +63,7 @@ function MySidebarContent({ notes }: MySidebarContentProps) {
       <SidebarGroupContent>
         <SidebarMenu>
           {results.map((note) => (
-            <SidebarMenuItem key={note.id}>
+            <SidebarMenuItem key={note.id} className="group/item relative">
               <SidebarMenuButton asChild>
                 <Link
                   href={`/?noteId=${note.id}`}
@@ -77,6 +77,7 @@ function MySidebarContent({ notes }: MySidebarContentProps) {
                   </p>
                 </Link>
               </SidebarMenuButton>
+              <DeleteNoteButton noteId={note.id} />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
