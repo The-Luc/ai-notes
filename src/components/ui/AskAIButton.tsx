@@ -141,7 +141,7 @@ function AskAIButton({ user }: IProps) {
         </DialogHeader>
 
         <div
-          className={`h-min-[400px] space-y-4 overflow-y-auto rounded-md border p-4 ${isFullScreen ? "h-[58vh] w-[60vw] flex-grow" : ""}`}
+          className={`h-min-[400px] custom-scrollbar space-y-4 overflow-y-auto rounded-md border p-4 ${isFullScreen ? "h-[58vh] w-[60vw] flex-grow" : ""}`}
           ref={scrollRef}
         >
           {messages.length === 0
