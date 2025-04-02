@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
-import { Bot, Loader2, User2 } from "lucide-react";
+import { Bot, User2 } from "lucide-react";
 import { Textarea } from "./textarea";
 import { toast } from "sonner";
 import { chatWithGemini } from "../../actions/gemini";

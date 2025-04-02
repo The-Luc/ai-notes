@@ -1,10 +1,10 @@
 'use server'
 
-import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache';
+import { Note } from '@prisma/client';
+import { revalidateTag, unstable_cache } from 'next/cache';
 import { getUser } from '../app/auth/server';
 import { prisma } from '../db/prisma';
-import { handleError } from '../lib/utils'
-import { Note } from '@prisma/client';
+import { handleError } from '../lib/utils';
 
 // Define return types for better type safety
 type NoteActionSuccess = {

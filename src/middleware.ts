@@ -1,7 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { debugAuth } from './lib/utils'
-import { prisma } from './db/prisma'
 
 export async function middleware(request: NextRequest) {
 	return await updateSession(request)

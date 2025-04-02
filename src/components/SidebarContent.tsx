@@ -10,7 +10,6 @@ import { Input } from "./ui/input";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Note } from "@prisma/client";
-import { debugApp } from "../lib/utils";
 import Fuse from "fuse.js";
 import Link from "next/link";
 import useNote from "../hooks/useNote";

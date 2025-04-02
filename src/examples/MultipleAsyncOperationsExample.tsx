@@ -228,8 +228,8 @@ export const WithUseTransition = () => {
       </div>
 
       <p className="mt-4 text-sm text-gray-500">
-        Notice how we use a single isPending state for all operations, and don't
-        need to manually reset it.
+        Notice how we use a single isPending state for all operations, and
+        don&apos;t need to manually reset it.
       </p>
     </div>
   );
