@@ -12,7 +12,6 @@ function LogoutButton() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    console.log("Logout");
     startTransition(async () => {
       const { errorMessage } = await logoutAction();
 

@@ -1,9 +1,11 @@
-
+'use server'
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from '../db/prisma';
 import { getUser } from '../app/auth/server';
 import { Note } from '@prisma/client';
+import { IMessage } from '../components/ui/AskAIButton';
+import { handleError } from '../lib/utils';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -22,26 +24,44 @@ Rendered like this in JSX:
 <p dangerouslySetInnerHTML={{ __html: YOUR_RESPONSE }} />
 Here are the user's notes:
 ${notes.map(note => `Note: ${note.text}. Created at: ${note.createdAt}. Updated at: ${note.updatedAt}`).join('\n')}
-`
+
+Please answer the user's question.`
 
 
-export async function chatWithGemini() {
-	const user = await getUser();
+export async function chatWithGemini(input: string, messages: IMessage[]) {
+	try {
+		const user = await getUser();
 
-	if (!user) return null;
+		if (!user) return { errorMessage: "You must be logged in to ask AI" };
 
-	const notes = await prisma.note.findMany({
-		where: {
-			authorId: user.id,
-		},
-		orderBy: {
-			updatedAt: "desc",
-		},
-	});
+		const notes = await prisma.note.findMany({
+			where: {
+				authorId: user.id,
+			},
+			orderBy: {
+				updatedAt: "desc",
+			},
+		});
 
+		const history = messages.map(m => ({
+			role: m.role,
+			parts: [{ text: m.content }]
+		}));
 
+		const systemInstruction = createPrompt(notes);
+		const chat = model.startChat({
+			history,
+			systemInstruction: {
+				parts: [{ text: systemInstruction }],
+				role: "system"
+			}
+		})
+		const response = await chat.sendMessage(input);
 
-	const response = await model.generateContent(createPrompt(notes));
+		return { response: response.response.text(), errorMessage: null };
+	} catch (error) {
+		console.error(error);
+		return handleError(error) as { errorMessage: string };
+	}
 
-	return response.response;
 }

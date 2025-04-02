@@ -62,7 +62,6 @@ export const signupAction = async (email: string, password: string) => {
 		if (!userId) throw new Error('Error creating user')
 
 		// create user in DB
-		console.log("🚀 ~ signupAction ~ userId:", userId)
 		await prisma.user.create({
 			data: {
 				id: userId,

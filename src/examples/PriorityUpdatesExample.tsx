@@ -95,14 +95,10 @@ const WithTransition = () => {
     setCount(count + 1);
 
     // Expensive operation wrapped in useTransition (lower priority)
-    console.log("check 1");
     startTransition(async () => {
-      console.log("check 2");
       const result = await performExpensiveOperation();
-      console.log("check 3");
       setOperationResult(result);
     });
-    console.log("check 4");
   };
 
   return (

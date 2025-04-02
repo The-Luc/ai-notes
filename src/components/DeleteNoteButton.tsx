@@ -29,7 +29,6 @@ function DeleteNoteButton({ noteId }: IProps) {
   const router = useRouter();
   const searchParam = useSearchParams();
   const paramNoteId = searchParam.get("noteId");
-  console.log(noteId);
 
   const handleDelete = () => {
     startTransition(async () => {
