@@ -8,7 +8,7 @@ interface IProps {
 
 function AskAIButton({ user }: IProps) {
   return (
-    <Button className="" variant="outline">
+    <Button className="" variant="secondary">
       Ask AI
     </Button>
   );
