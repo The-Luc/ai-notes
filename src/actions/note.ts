@@ -33,6 +33,8 @@ export const createNoteAction = async (text?: string): Promise<NoteActionResult>
 				authorId: user.id,
 			},
 		})
+		// revalidate the notes list
+		revalidateTag("notes");
 
 		return { errorMessage: null, note };
 	} catch (error) {

@@ -5,6 +5,7 @@ import { Note } from "@prisma/client";
 import AskAIButton from "../components/ui/AskAIButton";
 import NewNoteButton from "../components/ui/NewNoteButton";
 import NoteTextInput from "../components/ui/NoteTextInput";
+import CreateNoteDialog from "../components/CreateNoteDialog";
 
 type IProps = {
   searchParams: Promise<{ [key: string]: string | undefined }>;
@@ -31,6 +32,7 @@ async function Homepage({ searchParams }: IProps) {
       <div className="flex gap-2">
         <AskAIButton user={user} />
         <NewNoteButton user={user} />
+        <CreateNoteDialog user={user} />
       </div>
 
       <NoteTextInput noteId={noteId} startingNoteText={note?.text || ""} />

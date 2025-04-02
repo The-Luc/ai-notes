@@ -54,7 +54,7 @@ function DeleteNoteButton({ noteId }: IProps) {
           className="absolute top-1/2 right-1 -translate-y-1/2 opacity-0 group-hover/item:opacity-100"
           variant="ghost"
         >
-          <Trash2 />
+          <Trash2 className="text-red-500" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
