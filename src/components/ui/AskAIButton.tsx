@@ -91,6 +91,7 @@ function AskAIButton({ user }: IProps) {
           "messages",
           JSON.stringify([
             ...messages,
+            { role: "user", content: text },
             { role: "model", content: response || "" },
           ]),
         );
@@ -161,7 +162,7 @@ function AskAIButton({ user }: IProps) {
         </div>
         <DialogFooter className="flex !justify-center">
           <div
-            className={`flex w-full justify-between ${isFullScreen ? "max-w-[70vw]" : ""}`}
+            className={`flex w-full items-center justify-between ${isFullScreen ? "max-w-[70vw]" : ""}`}
           >
             <div className="flex items-center gap-2">
               <Button variant="outline" onClick={toggleFullScreen}>
